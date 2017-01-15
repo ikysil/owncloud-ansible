@@ -1,0 +1,23 @@
+- name: Install PostgreSQL
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+  register: postgresql_installed
+
+- name: Init PostgreSQL DataBase
+  command: postgresql-setup initdb
+  become: true
+  when: postgresql_installed.changed
+
+- name: Start PostgreSQL
+  service:
+    name: postgresql
+    state: started
+  become: true
+
+- name: Enable PostgreSQL
+  command: systemctl enable postgresql
+  become: true

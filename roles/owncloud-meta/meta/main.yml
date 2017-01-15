@@ -1,0 +1,7 @@
+dependencies:
+  - { role: linux-base }
+  - { role: linux-ntp }
+  - { role: apache }
+  - { role: database }
+  - { role: owncloud }
+  - { role: certbot }

@@ -79,7 +79,7 @@ Vagrant.configure(2) do |config|
       export PYTHONUNBUFFERED=1
       export ANSIBLE_FORCE_COLOR=true
       cd /vagrant
-      #ansible-playbook owncloud-ansible.yml -v -i vagrant-hosts
+      ansible-playbook owncloud-ansible.yml -v -i vagrant-hosts
     SHELL
   end
 

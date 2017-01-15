@@ -1,0 +1,6 @@
+---
+- name: Deploy ownCloud server
+  hosts: owncloud
+  become: true
+  roles:
+    - role: owncloud-meta
