@@ -1,0 +1,3 @@
+#! /bin/bash
+
+certbot certonly --apache {{ letsencrypt_domain_flags | join(' ') }} --email {{ letsencrypt_email }} --non-interactive --agree-tos
