@@ -1,0 +1,4 @@
+letsencrypt_domain_flags:
+  - "-d {{ owncloud_hostname }}"
+
+letsencrypt_email: postmaster@{{ owncloud_hostname }}

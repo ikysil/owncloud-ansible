@@ -6,3 +6,4 @@
     - role: owncloud-meta
   vars:
     - owncloud_hostname: target.private
+    - letsencrypt_email: ikysil@target.private

@@ -1,0 +1,31 @@
+- name: Install EPEL Repository
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+  tags:
+    - packages
+
+- name: Install Certbot Package
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-certbot-apache
+  tags:
+    - packages
+
+#- name: Check if we've generated a cert already
+#  stat: path=/etc/letsencrypt/live/{{ owncloud_hostname }}/fullchain.pem
+#  register: cert_stats
+
+#- name: Generate Certificates (First time)
+#  become: yes
+#  command: "certbot certonly --webroot -w /var/www/html {{ letsencrypt_domain_flags | join(' ') }} --email {{ letsencrypt_email }} --non-interactive --agree-tos"
+#  when: cert_stats.stat.exists == false
+
+#- name: Generate Certificates (Subsequent times)
+#  become: yes
+#  command: "certbot certonly --webroot -w /var/www/html {{ letsencrypt_domain_flags | join(' ') }} --email {{ letsencrypt_email }} --non-interactive --agree-tos"
+#  when: cert_stats.stat.exists == true
