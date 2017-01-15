@@ -6,12 +6,8 @@
     - httpd
   notify: install httpd
 
-- name: Start Apache
+- name: Enable Apache
   service:
     name: httpd
-    state: started
-  become: true
-
-- name: Enable Apache
-  command: systemctl enable httpd
-  become: true
+    enabled: true
+    state: stopped

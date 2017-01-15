@@ -1,0 +1,17 @@
+- name: Import ownCloud Repository
+  yum_repository:
+    name: ownCloud
+    description: ownCloud Server Version stable (CentOS_7)
+    enabled: true
+    baseurl: "{{ owncloud_centos7_repo_url }}"
+    gpgkey: "{{ owncloud_centos7_key_url }}"
+    gpgcheck: true
+
+- name: Install ownCloud
+  yum:
+    update_cache: true
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - owncloud
+  notify: restart httpd

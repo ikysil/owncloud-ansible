@@ -1,8 +1,8 @@
 dependencies:
   - { role: linux-base }
   - { role: linux-ntp }
-  - { role: linux-php55-meta }
   - { role: apache }
   - { role: database }
-  - { role: owncloud }
+  - { role: owncloud-centos7 }
+  - { role: linux-php55-meta }
   - { role: certbot }

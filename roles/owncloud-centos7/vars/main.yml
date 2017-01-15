@@ -1,0 +1,2 @@
+owncloud_centos7_repo_url: https://download.owncloud.org/download/repositories/stable/CentOS_7
+owncloud_centos7_key_url:  https://download.owncloud.org/download/repositories/stable/CentOS_7/repodata/repomd.xml.key
