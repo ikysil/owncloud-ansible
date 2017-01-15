@@ -1,3 +1,8 @@
+- name: Check if ownCloud is configured
+  stat:
+    path: /var/www/html/owncloud/config/config.php
+  register: owncloud_config
+
 - name: Install ownCloud Schema
   become: true
   become_user: apache
@@ -7,6 +12,7 @@
     --admin-user "admin"  --admin-pass "{{ owncloud_admin_password }}"
   args:
     chdir: /var/www/html/owncloud
+  when: not owncloud_config.stat.exists
 
 - name: Configure ownCloud
   become: true
@@ -18,4 +24,5 @@
     - /opt/rh/php55/root/usr/bin/php occ config:system:set trusted_domains 0 --value="{{ owncloud_hostname }}"
     - /opt/rh/php55/root/usr/bin/php occ config:system:set logtimezone --value="Europe/Luxembourg"
     - /opt/rh/php55/root/usr/bin/php occ config:system:set overwrite.cli.url --value="http://{{ owncloud_hostname }}/owncloud"
+  when: not owncloud_config.stat.exists
   notify: restart httpd
