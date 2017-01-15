@@ -1,0 +1,6 @@
+- name: install httpd
+  script: "{{ item }}"
+  with_items:
+    - disable-php54-modules.sh
+    - enable-php55-modules.sh
+  notify: restart httpd

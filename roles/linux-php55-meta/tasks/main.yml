@@ -1,0 +1,14 @@
+- name: Install SCL Repository
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - centos-release-scl
+
+- name: Install PHP 5.5
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - centos-release-scl
+

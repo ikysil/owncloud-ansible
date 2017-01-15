@@ -4,6 +4,7 @@
     state: present
   with_items:
     - httpd
+  notify: install httpd
 
 - name: Start Apache
   service:
