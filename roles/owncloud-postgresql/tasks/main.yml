@@ -44,9 +44,11 @@
   with_items:
     - "host    all             {{ owncloud_database_username }}        127.0.0.1/32            trust"
     - "host    all             {{ owncloud_database_username }}        0.0.0.0/0               md5"
+  register: pg_hba_conf
 
 - name: Restart after Configure PostgreSQL Authentication
   service:
     name: postgresql
     state: restarted
   become: true
+  when: pg_hba_conf.changed
