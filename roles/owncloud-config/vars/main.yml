@@ -1,0 +1,2 @@
+owncloud_secret: "{{ lookup('password', 'secrets/{{ owncloud_hostname }}_owncloud_secret chars=ascii_letters,digits,hexdigits,punctuation') }}"
+owncloud_admin_password: "{{ lookup('password', 'secrets/{{ owncloud_hostname }}_admin_password chars=ascii_letters,digits,hexdigits,punctuation') }}"

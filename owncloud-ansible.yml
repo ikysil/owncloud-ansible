@@ -4,3 +4,5 @@
   become: true
   roles:
     - role: owncloud-meta
+  vars:
+    - owncloud_hostname: target.private

@@ -5,4 +5,6 @@ dependencies:
   - { role: database }
   - { role: owncloud-centos7 }
   - { role: linux-php55-meta }
+  - { role: owncloud-postgresql }
+  - { role: owncloud-config }
   - { role: certbot }

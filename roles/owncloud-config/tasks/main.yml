@@ -1,0 +1,21 @@
+- name: Install ownCloud Schema
+  become: true
+  become_user: apache
+  command: /opt/rh/php55/root/usr/bin/php occ maintenance:install
+    --database "pgsql"  --database-name "{{ owncloud_database_name }}"  --database-host "{{ owncloud_database_hostname }}"
+    --database-user "{{ owncloud_database_username }}"  --database-pass "{{ owncloud_database_password }}"  --database-table-prefix "oc_"
+    --admin-user "admin"  --admin-pass "{{ owncloud_admin_password }}"
+  args:
+    chdir: /var/www/html/owncloud
+
+- name: Configure ownCloud
+  become: true
+  become_user: apache
+  command: "{{ item }}"
+  args:
+    chdir: /var/www/html/owncloud
+  with_items:
+    - /opt/rh/php55/root/usr/bin/php occ config:system:set trusted_domains 0 --value="{{ owncloud_hostname }}"
+    - /opt/rh/php55/root/usr/bin/php occ config:system:set logtimezone --value="Europe/Luxembourg"
+    - /opt/rh/php55/root/usr/bin/php occ config:system:set overwrite.cli.url --value="http://{{ owncloud_hostname }}/owncloud"
+  notify: restart httpd

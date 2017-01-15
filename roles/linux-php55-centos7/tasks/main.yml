@@ -4,6 +4,8 @@
     state: present
   with_items:
     - centos-release-scl
+  tags:
+    - packages
 
 - name: Install PHP 5.5
   yum:
@@ -15,3 +17,9 @@
     - php55-php-gd
     - php55-php-mbstring
     - php55-php-pgsql
+  tags:
+    - packages
+
+- name: Copy additional PHP modules
+  script: copy-php55-modules.sh
+  notify: restart httpd

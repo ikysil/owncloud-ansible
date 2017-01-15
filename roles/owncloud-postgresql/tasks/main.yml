@@ -1,0 +1,52 @@
+- name: Install Prerequisites
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-psycopg2
+  tags:
+    - packages
+
+- name: Configure PostgreSQL extension in PHP
+  copy:
+    src: pgsql.ini
+    dest: /etc/php.d/pgsql.ini
+
+- name: Create ownCloud DataBase
+  become_user: postgres
+  postgresql_db:
+    name: "{{ owncloud_database_name }}"
+    encoding: UTF-8
+    lc_collate: en_US.UTF-8
+    lc_ctype: en_US.UTF-8
+    template: template0
+
+- name: Create ownCloud DataBase User
+  become_user: postgres
+  postgresql_user:
+    db: "{{ owncloud_database_name }}"
+    name: "{{ owncloud_database_username }}"
+    password: "{{ owncloud_database_password }}"
+
+- name: Grant Privileges to DataBase User
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ owncloud_database_name }}"
+    privs: ALL
+    type: database
+    role: "{{ owncloud_database_username }}"
+
+- name: Configure PostgreSQL Authentication
+  lineinfile:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    insertbefore: "^host\\s+all\\s+all\\s+127.0.0.1/32\\s+ident$"
+    line: "{{ item }}"
+  with_items:
+    - "host    all             {{ owncloud_database_username }}        127.0.0.1/32            trust"
+    - "host    all             {{ owncloud_database_username }}        0.0.0.0/0               md5"
+
+- name: Restart after Configure PostgreSQL Authentication
+  service:
+    name: postgresql
+    state: restarted
+  become: true

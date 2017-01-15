@@ -15,3 +15,5 @@
   with_items:
     - owncloud
   notify: restart httpd
+  tags:
+    - packages

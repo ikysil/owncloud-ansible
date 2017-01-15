@@ -6,18 +6,17 @@
     - postgresql-server
     - postgresql-contrib
   register: postgresql_installed
+  tags:
+    - packages
 
 - name: Init PostgreSQL DataBase
   command: postgresql-setup initdb
   become: true
-  when: postgresql_installed.changed
+  when: postgresql_installed is defined and postgresql_installed.changed
 
 - name: Start PostgreSQL
   service:
     name: postgresql
     state: started
-  become: true
-
-- name: Enable PostgreSQL
-  command: systemctl enable postgresql
+    enabled: true
   become: true
