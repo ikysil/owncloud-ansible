@@ -4,12 +4,16 @@
     state: present
   with_items:
     - httpd
+    - mod_ssl
   notify: install httpd
   tags:
     - packages
+    - apache
 
 - name: Enable Apache
   service:
     name: httpd
     enabled: true
     state: stopped
+  tags:
+    - apache
