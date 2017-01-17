@@ -14,6 +14,32 @@
     chdir: /var/www/html/owncloud
   when: not owncloud_config.stat.exists
 
+- name: SELinux - Enable Apache to Connect to DataBase
+  seboolean:
+    name: httpd_can_network_connect_db
+    state: yes
+    persistent: yes
+
+- name: SELinux - Enable Apache to Write to ownCloud Directories
+#  see https://github.com/ansible/ansible-modules-extras/issues/3619
+#  sefcontext:
+#    target: '{{ item }}'
+#    setype: httpd_sys_rw_content_t
+#    state: present
+#  with_items:
+#    - '/var/www/html/owncloud/data(/.*)?'
+#    - '/var/www/html/owncloud/config(/.*)?'
+#    - '/var/www/html/owncloud/apps(/.*)?'
+#    - '/var/www/html/owncloud/assets(/.*)?'
+#    - '/var/www/html/owncloud/.htaccess'
+#    - '/var/www/html/owncloud/.user.ini'
+  command:
+    semanage fcontext -a -t httpd_sys_rw_content_t '/var/www/html/owncloud(/.*)?'
+
+- name: SELinux - Restore Context
+  command:
+    restorecon -RF /var/www/html/owncloud
+
 - name: Configure ownCloud
   become: true
   become_user: apache
