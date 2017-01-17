@@ -1,0 +1,17 @@
+target.private ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+owncloud2.ikysil.name ansible_ssh_user=root ansible_ssh_host=193.70.38.200 ansible_ssh_private_key_file=/var/host-ssh/id_rsa
+
+[vagrant]
+target.private
+
+[vagrant:vars]
+owncloud_hostname=target.private
+letsencrypt_email=ikysil@target.private
+
+[production]
+owncloud2.ikysil.name
+
+[production:vars]
+owncloud_hostname=owncloud2.ikysil.name
+owncloud_database_hostname=localhost
+letsencrypt_email=ikysil@ikysil.name

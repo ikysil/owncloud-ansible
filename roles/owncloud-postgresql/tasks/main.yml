@@ -49,6 +49,6 @@
 - name: Restart after Configure PostgreSQL Authentication
   service:
     name: postgresql
-    state: restarted
+    state: reloaded
   become: true
   when: pg_hba_conf.changed

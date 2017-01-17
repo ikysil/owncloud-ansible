@@ -1,9 +1,8 @@
 ---
 - name: Deploy ownCloud server
-  hosts: owncloud
+  hosts: "{{ target }}"
   become: true
   roles:
     - role: owncloud-meta
   vars:
-    - owncloud_hostname: target.private
-    - letsencrypt_email: ikysil@target.private
+    - target: vagrant
