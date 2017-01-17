@@ -61,6 +61,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "installer", autostart: true do |installer|
     installer.vm.network "private_network", ip: "10.100.0.2"
     installer.vm.hostname = "installer.private"
+    installer.vm.synced_folder ENV["HOME"] + "/.ssh", "/var/host-ssh"
     installer.vm.provider "virtualbox" do |vb|
       vb.memory = "2048"
       vb.cpus = 1
@@ -73,13 +74,6 @@ Vagrant.configure(2) do |config|
     installer.vm.provision "shell", privileged: true, inline: <<-SHELL
       yum install -y epel-release
       yum install -y ansible
-    SHELL
-
-    installer.vm.provision "shell", inline: <<-SHELL
-      export PYTHONUNBUFFERED=1
-      export ANSIBLE_FORCE_COLOR=true
-      cd /vagrant
-      ansible-playbook owncloud-ansible.yml -v -i vagrant-hosts
     SHELL
   end
 
