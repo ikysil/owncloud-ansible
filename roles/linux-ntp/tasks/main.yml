@@ -6,3 +6,12 @@
     - ntp
   tags:
     - packages
+    - ntp
+
+- name: Enable ntpd
+  service:
+    name: ntpd
+    enabled: true
+    state: started
+  tags:
+    - ntp
