@@ -1,0 +1,9 @@
+- name: Install Additional Yum Packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - yum-utils
+  tags:
+    - packages
+    - yum

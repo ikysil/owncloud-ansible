@@ -1,0 +1,13 @@
+- name: Install EPEL Repository
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - epel-release
+  tags:
+    - packages
+    - epel
+
+- name: Disable EPEL Repository by default
+  command: yum-config-manager --disable epel
+  become: true

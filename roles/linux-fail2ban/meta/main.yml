@@ -1,3 +1,3 @@
 dependencies:
-  - { role: apache }
+  - { role: linux-base }
   - { role: linux-epel }

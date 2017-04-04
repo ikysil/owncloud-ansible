@@ -1,17 +1,8 @@
-- name: Install EPEL Repository
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - epel-release
-  tags:
-    - packages
-    - certbot
-
 - name: Install Certbot Package
   yum:
     name: "{{ item }}"
     state: present
+    enablerepo: epel
   with_items:
     - python-certbot-apache
   tags:
