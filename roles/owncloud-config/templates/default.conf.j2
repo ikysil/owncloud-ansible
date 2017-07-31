@@ -1,0 +1,5 @@
+<VirtualHost _default_:80>
+    ServerName {{ owncloud_hostname }}
+    ServerAlias {{ owncloud_hostname }}
+    Redirect permanent / https://{{ owncloud_hostname }}/
+</VirtualHost>

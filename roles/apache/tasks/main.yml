@@ -10,6 +10,14 @@
     - packages
     - apache
 
+- name: Enable modules
+  apache2_module:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - ssl
+    - headers
+
 - name: Enable Apache
   service:
     name: httpd

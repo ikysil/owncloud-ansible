@@ -49,6 +49,29 @@
   with_items:
     - /opt/rh/php55/root/usr/bin/php occ config:system:set trusted_domains 0 --value="{{ owncloud_hostname }}"
     - /opt/rh/php55/root/usr/bin/php occ config:system:set logtimezone --value="Europe/Luxembourg"
-    - /opt/rh/php55/root/usr/bin/php occ config:system:set overwrite.cli.url --value="http://{{ owncloud_hostname }}/owncloud"
+    - /opt/rh/php55/root/usr/bin/php occ config:system:set overwrite.cli.url --value="https://{{ owncloud_hostname }}/owncloud"
   when: not owncloud_config.stat.exists
+  notify: restart httpd
+
+- name: Configure Strict-Transport-Security
+  become: true
+  become_user: apache
+  blockinfile:
+    path: /var/www/html/owncloud/.htaccess
+    marker: "##### {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####"
+    content: |
+      <IfModule mod_headers.c>
+        Header always set Strict-Transport-Security "max-age=15552000; includeSubDomains"
+      </IfModule>
+  notify: restart httpd
+
+- name: Configure Permanent Redirect
+  become: true
+  template:
+    src: default.conf.j2
+    dest: /etc/httpd/conf.d/default.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart httpd
